@@ -1,18 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- meta tags, styles… -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard</title>
+  <style>
+    /* Global Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Container */
+    .container {
+      display: flex; flex-wrap: wrap;
+      width: 100%; max-width: 1200px;
+      margin: 0 auto; padding: 0 2%;
+      flex: 1;
+    }
+
+    /* Header */
+    header {
+      width: 100%; padding: 1rem 0;
+      background: #333; color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 1.5rem; }
+    nav ul { list-style: none; display: flex; }
+    nav li { margin-left: 1.5rem; }
+    nav a { color: #fff; text-decoration: none; font-weight: bold; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; }
+    .hamburger div { width: 25px; height: 3px; background: #fff; margin: 4px 0; }
+
+    /* Sidebar */
+    aside {
+      flex: 1 1 20%; background: #f4f4f4; padding: 1rem; min-width: 200px;
+    }
+
+    /* Main */
+    main {
+      flex: 1 1 75%; padding: 1rem; min-width: 300px;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%; text-align: center;
+      padding: 1rem 0; background: #333; color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul { display: none; position: absolute; top: 60px; right: 2%; background: #444; flex-direction: column; width: 200px; }
+      nav ul.show { display: flex; }
+      .hamburger { display: flex; }
+      aside { order: 2; width: 100%; }
+      main { order: 1; width: 100%; }
+    }
+  </style>
 </head>
 <body>
-  <header>…</header>
+
+  <header class="container">
+    <div class="logo">My Dashboard</div>
+    <div class="hamburger" id="hamburger">
+      <div></div><div></div><div></div>
+    </div>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
   <div class="container">
-    <aside>…</aside>
+    <aside>
+      <h2>Quick Links</h2>
+      <p>Place navigation or stats here.</p>
+    </aside>
+
     <main>
-      <section id="projects">…</section>
-      <section id="skills">…</section>
+      <section id="projects">
+        <h1>Projects</h1>
+        <ul>
+          <li><a href="https://github.com/madasuhemanth7/AB_testing">AB_testing</a></li>
+          <li><a href="https://github.com/madasuhemanth7/betting_game_ml">betting_game_ml</a></li>
+        </ul>
+      </section>
+      <section id="skills">
+        <h1>Technical Skills</h1>
+        <ul>
+          <li>Python (Pandas, NumPy, SciPy, PyCaret), SQL (Advanced), PySpark, R, Bash</li>
+          <li>XGBoost, Scikit-learn, TensorFlow, Isolation Forest</li>
+          <li>A/B Testing, Multivariate Testing, Lift Analysis, Causal Inference</li>
+          <li>AWS (S3, Lambda, ECS/EKS, SageMaker, Redshift), Azure Synapse, GCP Vertex AI</li>
+          <li>Airflow, Kafka, DBT, Docker, Kubernetes, CI/CD, GitHub Actions</li>
+          <li>Power BI, Tableau, Looker, Streamlit, Superset, Excel (DAX)</li>
+          <li>Great Expectations, Data Contracts, SOX Compliance, Audit Trail</li>
+        </ul>
+      </section>
     </main>
   </div>
-  <footer>…</footer>
-  <script>…</script>
+
+  <footer>&copy; 2025 Hemanth Madasu</footer>
+
+  <script>
+    // Toggle mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => navMenu.classList.toggle('show'));
+    document.addEventListener('click', e => {
+      if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('show');
+      }
+    });
+  </script>
+
 </body>
 </html>
