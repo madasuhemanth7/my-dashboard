@@ -101,6 +101,33 @@
       </section>
     </main>
   </div>
+  <!-- Chatbot Container -->
+  <div id="chatbot" style="
+      position: fixed; bottom: 20px; right: 20px;
+      width: 300px; max-height: 400px; display: none;
+      background: #fff; border: 1px solid #ccc; border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden;
+      font-family: Arial, sans-serif;
+    ">
+    <div style="background: #333; color: #fff; padding: 0.5rem;">
+      <strong>Hemanth’s Chat Bot</strong>
+      <button id="chat-close" style="
+          float: right; background: none; border: none;
+          color: #fff; font-size: 1rem; cursor: pointer;
+        ">&times;</button>
+    </div>
+    <div id="chat-body" style="padding: 1rem; font-size: 0.9rem;">
+      <p>Hi! I’m Hemanth’s Chat Bot. I can help you quickly before you speak to him.<br>
+         What do you want to know about?</p>
+      <ul id="chat-menu" style="list-style:none; padding-left:0;">
+        <li><button class="chat-opt">Skills</button></li>
+        <li><button class="chat-opt">Tools</button></li>
+        <li><button class="chat-opt">Contact Details</button></li>
+        <li><button class="chat-opt">Experience</button></li>
+        <li><button class="chat-opt">Projects</button></li>
+      </ul>
+    </div>
+  </div>
 
   <footer>&copy; 2025 Hemanth Madasu</footer>
 
@@ -117,4 +144,49 @@
   </script>
 
 </body>
+    <!-- Chatbot Toggle Button -->
+  <button id="chat-toggle" style="
+      position: fixed; bottom: 20px; right: 20px;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: #333; color: #fff; font-size: 1.5rem;
+      border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    ">💬</button>
+
+  <script>
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatBot    = document.getElementById('chatbot');
+    const chatClose  = document.getElementById('chat-close');
+    const chatBody   = document.getElementById('chat-body');
+    const chatMenu   = document.getElementById('chat-menu');
+
+    // Content for each menu option
+    const content = {
+      Skills:        "<ul><li>Python, SQL, Spark, R, Bash</li><li>ML: XGBoost, TensorFlow, ARIMA</li><li>…</li></ul>",
+      Tools:         "<ul><li>Airflow, DBT, Kafka</li><li>AWS, GCP, Azure</li><li>…</li></ul>",
+      "Contact Details": "<p>Email: madasuhemanth9@gmail.com<br>Phone: +1 704-506-5621</p>",
+      Experience:    "<p>Senior Data Analyst @ Amazon (2023-2025)<br>ML Engineer @ Uber (2022-2023)<br>…</p>",
+      Projects:      "<ul><li><a href='https://github.com/madasuhemanth7/AB_testing'>AB_testing</a></li><li><a href='https://github.com/madasuhemanth7/betting_game_ml'>betting_game_ml</a></li></ul>"
+    };
+
+    // Show/hide bot
+    chatToggle.onclick = () => {
+      chatBot.style.display = chatBot.style.display === 'block' ? 'none' : 'block';
+    };
+    chatClose.onclick = () => chatBot.style.display = 'none';
+
+    // Handle menu clicks
+    document.querySelectorAll('.chat-opt').forEach(btn => {
+      btn.onclick = () => {
+        const choice = btn.textContent;
+        chatBody.innerHTML = 
+          "<div style='padding:1rem; font-size:0.9rem;'>" +
+          "<h4>" + choice + "</h4>" +
+          content[choice] +
+          "<button id='back' style='margin-top:1rem;padding:0.5rem;cursor:pointer;'>Main Menu</button>" +
+          "</div>";
+        document.getElementById('back').onclick = () => location.reload();
+      };
+    });
+  </script>
+
 </html>
