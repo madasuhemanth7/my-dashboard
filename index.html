@@ -5,72 +5,166 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Dashboard</title>
   <style>
-    /* Global Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    :root {
+      /* Colors */
+      --dark-bg:   #1f2937;
+      --light-bg:  #f9fafb;
+      --accent:    #3b82f6;
+      --text-dark: #111827;
+      --text-light:#f3f4f6;
+      --card-bg:   #ffffff;
+      --shadow:    rgba(0,0,0,0.1);
 
-    /* Container */
-    .container {
-      display: flex; flex-wrap: wrap;
-      width: 100%; max-width: 1200px;
-      margin: 0 auto; padding: 0 2%;
-      flex: 1;
+      /* Typography */
+      --font-sans: 'Helvetica Neue', Arial, sans-serif;
     }
+
+    /* Base */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-dark);
+      background: var(--light-bg);
+      display: flex; flex-direction: column;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    h1,h2,h3,h4 { color: var(--dark-bg); margin-bottom:.5rem; }
+    p,li { line-height:1.5; }
 
     /* Header */
     header {
-      width: 100%; padding: 1rem 0;
-      background: #333; color: #fff;
+      background: var(--dark-bg);
+      padding: 1rem 2%;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .logo { font-size: 1.5rem; }
-    nav ul { list-style: none; display: flex; }
-    nav li { margin-left: 1.5rem; }
-    nav a { color: #fff; text-decoration: none; font-weight: bold; }
-    .hamburger { display: none; flex-direction: column; cursor: pointer; }
-    .hamburger div { width: 25px; height: 3px; background: #fff; margin: 4px 0; }
-
-    /* Sidebar */
-    aside {
-      flex: 1 1 20%; background: #f4f4f4; padding: 1rem; min-width: 200px;
+    .logo {
+      font-size: 1.75rem;
+      font-weight: bold;
+      color: var(--text-light);
+    }
+    nav ul {
+      display: flex; gap:1.5rem;
+    }
+    nav a {
+      color: var(--text-light);
+      font-weight:600;
+    }
+    .hamburger {
+      display:none;
+      flex-direction: column;
+      cursor:pointer;
+    }
+    .hamburger div {
+      width:25px; height:3px;
+      background:var(--text-light);
+      margin:4px 0;
     }
 
-    /* Main */
-    main {
-      flex: 1 1 75%; padding: 1rem; min-width: 300px;
+    /* Layout */
+    .container {
+      display:flex; flex-wrap:wrap;
+      gap:1.5rem;
+      width:100%; max-width:1200px;
+      margin:2rem auto; padding:0 2%;
+      flex:1;
     }
+    aside, main {
+      background: var(--card-bg);
+      box-shadow: 0 2px 8px var(--shadow);
+      border-radius:8px;
+      padding:1.5rem;
+    }
+    aside { flex:1 1 240px; }
+    main  { flex:2 1 600px; }
+    section + section { margin-top:2rem; }
 
     /* Footer */
     footer {
-      width: 100%; text-align: center;
-      padding: 1rem 0; background: #333; color: #fff;
+      background:var(--dark-bg);
+      color:var(--text-light);
+      text-align:center;
+      padding:1rem 0;
+      font-size:.9rem;
+      margin-top:auto;
+    }
+
+    /* Chatbot */
+    #chatbot {
+      position:fixed; bottom:20px; right:20px;
+      width:300px; max-height:400px; display:none;
+      background:#fff; border:1px solid #ccc;
+      border-radius:8px; box-shadow:0 4px 12px var(--shadow);
+      overflow:hidden; font-family: var(--font-sans);
+    }
+    #chatbot > div:first-child {
+      background:var(--dark-bg); color:var(--text-light);
+      padding:.5rem;
+    }
+    #chatbot button {
+      cursor:pointer;
+      font-family: inherit;
+    }
+    #chat-menu { list-style:none; padding-left:0; }
+    #chat-menu li { margin: .5rem 0; }
+    #chat-menu .chat-opt {
+      width:100%; text-align:left; padding:.5rem;
+      background: var(--light-bg); border:none;
+      border-radius:4px; transition: background .2s;
+    }
+    #chat-menu .chat-opt:hover {
+      background: var(--accent); color:#fff;
+    }
+
+    #chat-toggle {
+      position: fixed; bottom:20px; right:20px;
+      width:50px; height:50px; border-radius:50%;
+      background:var(--accent); color:#fff; font-size:1.5rem;
+      border:none; cursor:pointer;
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      nav ul { display: none; position: absolute; top: 60px; right: 2%; background: #444; flex-direction: column; width: 200px; }
-      nav ul.show { display: flex; }
-      .hamburger { display: flex; }
-      aside { order: 2; width: 100%; }
-      main { order: 1; width: 100%; }
+    @media (max-width:768px) {
+      .header-container {
+        flex-direction: column; align-items:flex-start;
+      }
+      nav ul {
+        display:none;
+        flex-direction:column;
+        width:100%;
+        background:var(--dark-bg);
+        padding:1rem 0;
+        margin-top:1rem;
+      }
+      nav ul.show { display:flex; }
+      .hamburger { display:flex; }
+      .container { flex-direction:column; margin:1rem auto; }
     }
   </style>
 </head>
-<body>
 
-  <header class="container">
-    <div class="logo">My Dashboard</div>
-    <div class="hamburger" id="hamburger">
-      <div></div><div></div><div></div>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">My Dashboard</div>
+      <div class="hamburger" id="hamburger">
+        <div></div><div></div><div></div>
+      </div>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav>
-      <ul id="nav-menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
   </header>
 
   <div class="container">
@@ -87,6 +181,7 @@
           <li><a href="https://github.com/madasuhemanth7/betting_game_ml">betting_game_ml</a></li>
         </ul>
       </section>
+
       <section id="skills">
         <h1>Technical Skills</h1>
         <ul>
@@ -101,25 +196,19 @@
       </section>
     </main>
   </div>
+
+  <footer>&copy; 2025 Hemanth Madasu</footer>
+
   <!-- Chatbot Container -->
-  <div id="chatbot" style="
-      position: fixed; bottom: 20px; right: 20px;
-      width: 300px; max-height: 400px; display: none;
-      background: #fff; border: 1px solid #ccc; border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden;
-      font-family: Arial, sans-serif;
-    ">
-    <div style="background: #333; color: #fff; padding: 0.5rem;">
+  <div id="chatbot">
+    <div>
       <strong>Hemanth’s Chat Bot</strong>
-      <button id="chat-close" style="
-          float: right; background: none; border: none;
-          color: #fff; font-size: 1rem; cursor: pointer;
-        ">&times;</button>
+      <button id="chat-close" style="float:right;background:none;border:none;color:#fff;font-size:1.25rem">&times;</button>
     </div>
-    <div id="chat-body" style="padding: 1rem; font-size: 0.9rem;">
+    <div id="chat-body" style="padding:1rem; font-size:.9rem;">
       <p>Hi! I’m Hemanth’s Chat Bot. I can help you quickly before you speak to him.<br>
          What do you want to know about?</p>
-      <ul id="chat-menu" style="list-style:none; padding-left:0;">
+      <ul id="chat-menu">
         <li><button class="chat-opt">Skills</button></li>
         <li><button class="chat-opt">Tools</button></li>
         <li><button class="chat-opt">Contact Details</button></li>
@@ -129,64 +218,46 @@
     </div>
   </div>
 
-  <footer>&copy; 2025 Hemanth Madasu</footer>
-
-  <script>
-    // Toggle mobile menu
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('nav-menu');
-    hamburger.addEventListener('click', () => navMenu.classList.toggle('show'));
-    document.addEventListener('click', e => {
-      if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('show');
-      }
-    });
-  </script>
-
-</body>
-    <!-- Chatbot Toggle Button -->
-  <button id="chat-toggle" style="
-      position: fixed; bottom: 20px; right: 20px;
-      width: 50px; height: 50px; border-radius: 50%;
-      background: #333; color: #fff; font-size: 1.5rem;
-      border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    ">💬</button>
-
+  <!-- Chatbot Toggle Button & Logic -->
+  <button id="chat-toggle">💬</button>
   <script>
     const chatToggle = document.getElementById('chat-toggle');
     const chatBot    = document.getElementById('chatbot');
     const chatClose  = document.getElementById('chat-close');
     const chatBody   = document.getElementById('chat-body');
-    const chatMenu   = document.getElementById('chat-menu');
 
-    // Content for each menu option
+    // Menu content
     const content = {
-      Skills:        "<ul><li>Python, SQL, Spark, R, Bash</li><li>ML: XGBoost, TensorFlow, ARIMA</li><li>…</li></ul>",
-      Tools:         "<ul><li>Airflow, DBT, Kafka</li><li>AWS, GCP, Azure</li><li>…</li></ul>",
-      "Contact Details": "<p>Email: madasuhemanth9@gmail.com<br>Phone: +1 704-506-5621</p>",
-      Experience:    "<p>Senior Data Analyst @ Amazon (2023-2025)<br>ML Engineer @ Uber (2022-2023)<br>…</p>",
+      Skills:        "<ul><li>Python, SQL, Spark, R, Bash</li><li>ML: XGBoost, TensorFlow, ARIMA</li></ul>",
+      Tools:         "<ul><li>Airflow, DBT, Kafka</li><li>AWS, GCP, Azure</li></ul>",
+      "Contact Details": "<p>Email: madasuhemanth7@gmail.com<br>Phone: +1 704-649-5290</p>",
+      Experience:    "<p>Over all 5 years of experience in the field of Data sciences",
       Projects:      "<ul><li><a href='https://github.com/madasuhemanth7/AB_testing'>AB_testing</a></li><li><a href='https://github.com/madasuhemanth7/betting_game_ml'>betting_game_ml</a></li></ul>"
     };
 
-    // Show/hide bot
+    // Toggle chatbot
     chatToggle.onclick = () => {
       chatBot.style.display = chatBot.style.display === 'block' ? 'none' : 'block';
     };
     chatClose.onclick = () => chatBot.style.display = 'none';
 
-    // Handle menu clicks
+    // Handle option clicks
     document.querySelectorAll('.chat-opt').forEach(btn => {
       btn.onclick = () => {
         const choice = btn.textContent;
-        chatBody.innerHTML = 
-          "<div style='padding:1rem; font-size:0.9rem;'>" +
-          "<h4>" + choice + "</h4>" +
-          content[choice] +
-          "<button id='back' style='margin-top:1rem;padding:0.5rem;cursor:pointer;'>Main Menu</button>" +
-          "</div>";
+        chatBody.innerHTML = `
+          <h4>${choice}</h4>
+          ${content[choice] || '<p>Coming soon!</p>'}
+          <button id="back" style="margin-top:1rem;padding:.5rem;cursor:pointer;">Main Menu</button>
+        `;
         document.getElementById('back').onclick = () => location.reload();
       };
     });
-  </script>
 
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.onclick = () => navMenu.classList.toggle('show');
+  </script>
+</body>
 </html>
